@@ -1,0 +1,1 @@
+oapi-codegen --config=./api/openapi/apiconfig.yml ./api/openapi/users.yml > ./internal/users/api.gen.go
