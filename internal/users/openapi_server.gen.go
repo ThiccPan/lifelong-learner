@@ -11,17 +11,6 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-const (
-	BearerAuthScopes = "BearerAuth.Scopes"
-)
-
-// User defines model for User.
-type User struct {
-	Balance     int    `json:"balance"`
-	DisplayName string `json:"displayName"`
-	Role        string `json:"role"`
-}
-
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
 
