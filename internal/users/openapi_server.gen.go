@@ -4,7 +4,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 
@@ -38,12 +37,6 @@ type MiddlewareFunc func(http.Handler) http.Handler
 
 // GetCurrentUser operation middleware
 func (siw *ServerInterfaceWrapper) GetCurrentUser(w http.ResponseWriter, r *http.Request) {
-
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BearerAuthScopes, []string{})
-
-	r = r.WithContext(ctx)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		siw.Handler.GetCurrentUser(w, r)
