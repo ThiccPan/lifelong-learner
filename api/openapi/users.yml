@@ -8,8 +8,6 @@ servers:
     variables:
       hostname:
         default: localhost
-security:
-  - BearerAuth: []
 paths:
   /users/current:
     get:
