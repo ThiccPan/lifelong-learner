@@ -48,18 +48,34 @@ func (fa *FirebaseAuth) FirebaseAuthMiddleware(next http.Handler) http.Handler {
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(err.Error()))
+			return
 		}
 
-		ctx = context.WithValue(ctx, userContextKey, User{
+		fmt.Println("authtoken:", authToken.Claims)
+
+		userData := User{
 			UUID:  authToken.UID,
 			Email: authToken.Claims["email"].(string),
-		})
+		}
+
+		ctx = context.WithValue(ctx, userContextKey, userData)	
 
 		fmt.Println("context:", userContextKey, ctx.Value(userContextKey))
 
 		r = r.WithContext(ctx)
 		next.ServeHTTP(w, r)
 	})
+}
+
+func (fa *FirebaseAuth) CreateCustomToken(userAuthUID string, role string, displayName string, balance int) error {
+	// check if auth token string is a valid bearer token
+	claims := map[string]any{
+		"role": role,
+		"display_name": displayName,
+		"balance": balance,
+	}
+
+	return fa.AuthClient.SetCustomUserClaims(context.Background(), userAuthUID, claims)
 }
 
 type ContextKey int
